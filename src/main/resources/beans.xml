@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/util
+   		   http://www.springframework.org/schema/util/spring-util.xsd">
+    <bean id="donor1" class="com.bdd.donorDatabase.Donor"> <!--use constructor-->
+        <constructor-arg name="contactNo" value="123456"></constructor-arg>
+        <constructor-arg name="name" value="hello"></constructor-arg>
+    </bean>
+    <bean id="donor2" class="com.bdd.donorDatabase.Donor">
+        <constructor-arg name="contactNo" value="123457"></constructor-arg>
+        <constructor-arg name="name" value="world"></constructor-arg>
+    </bean>
+    <bean id="donorServiceObj" class="com.bdd.donorDatabase.DonorService">
+        <property name="donorList"> <!--use setter method-->
+            <!--to inject a collection object-->
+            <!-- must include relevant links in top for this to work-->
+            <util:list id="donorList" list-class="java.util.ArrayList" value-type="com.bdd.donorDatabase.Donor">
+                <ref bean="donor1"></ref>
+                <ref bean="donor2"></ref>
+            </util:list>
+        </property>
+    </bean>
+    <bean id="donorController" class="com.bdd.donorDatabase.DonorController">
+        <property name="donorService" ref="donorServiceObj"></property>
+    </bean>
+</beans>

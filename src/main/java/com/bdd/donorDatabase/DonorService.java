@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class DonorService {
-    static List<Donor> donorList = new ArrayList<Donor>();
+    static List<Donor> donorList; //= new ArrayList<Donor>();
 
     public String addNewDonor(Donor d){
         String result ="";
@@ -31,8 +31,11 @@ public class DonorService {
             //log error donor not found
         }
     }
-
     private static boolean checkIfDonorExist(Donor d){
         return donorList.contains(d);
+    }
+
+    public static void setDonorList(List<Donor> donorList) {
+        DonorService.donorList = donorList;
     }
 }

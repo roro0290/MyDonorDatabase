@@ -4,6 +4,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -11,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @SpringBootTest
 class DonorDatabaseApplicationTests {
 
-	DonorController donorController = new DonorController();
+	DonorController donorController;//= new DonorController();
 	Donor d1;
 
 	@Test
@@ -19,7 +21,10 @@ class DonorDatabaseApplicationTests {
 	}
 
 	@BeforeEach
-	void setup(){ d1 = new Donor("Rohini",1234);}
+	void setup(){
+		ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
+		donorController = context.getBean("donorController",DonorController.class);
+		d1 = new Donor("Rohini",1234);}
 
 	@AfterEach
 	void cleanUp(){ d1 = null;}
@@ -37,6 +42,6 @@ class DonorDatabaseApplicationTests {
 
 	@Test
 	void checkFindDonorUsingNameReturnsTrue(){
-		assertNotNull(donorController.findDonorUsingName("ro"));
+		assertNotNull(donorController.findDonorUsingName("hello"));
 	}
 }
