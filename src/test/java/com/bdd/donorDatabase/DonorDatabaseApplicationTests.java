@@ -13,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @SpringBootTest
 class DonorDatabaseApplicationTests {
 
+	ApplicationContext context;
 	DonorController donorController;//= new DonorController();
 	Donor d1;
 
@@ -22,12 +23,21 @@ class DonorDatabaseApplicationTests {
 
 	@BeforeEach
 	void setup(){
-		ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
+		context = new ClassPathXmlApplicationContext("beans.xml");
 		donorController = context.getBean("donorController",DonorController.class);
 		d1 = new Donor("Rohini",1234);}
 
 	@AfterEach
-	void cleanUp(){ d1 = null;}
+	void cleanUp(){
+		context = null;
+		d1 = null;
+		donorController = null;
+	}
+
+	@Test
+	void whenGetBeans_ReturnsBeans(){
+		assertNotNull(donorController);
+	}
 
 	@Test
 	void checkAddDonorReturnsTrue(){
